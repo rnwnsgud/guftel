@@ -11,8 +11,8 @@ function LeftMenu(props) {
   return (
     <div>
       <Menu mode={props.mode}>
-        <Menu.Item key="ani">
-          <a href="/ani">ANI</a>
+        <Menu.Item key="Ani">
+          <a href="/ani">Ani</a>
         </Menu.Item>
         <Menu.Item key="favorite">
           <a href="/main">..</a>

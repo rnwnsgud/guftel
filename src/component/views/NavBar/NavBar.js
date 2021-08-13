@@ -40,6 +40,7 @@ function NavBar() {
         >
           <LeftOutlined type="align-right" />
         </Button>
+
         <Drawer
           title="Basic Drawer"
           placement="right"

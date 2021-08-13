@@ -23,7 +23,6 @@ function Ani() {
           className="img"
           align="bottom"
         />
-        귀칼
       </div>
       <div className="item">
         <img
