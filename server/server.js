@@ -21,6 +21,8 @@ app.use("/api/product", require("./routes/product"));
 app.use("/api/comment", require("./routes/comment"));
 app.use("/api/like", require("./routes/like"));
 app.use("/api/star", require("./routes/star"));
+app.use("/api/blog", require("./routes/blog"));
+
 app.use("/uploads", express.static("uploads"));
 
 // Serve static assets if in production
@@ -104,6 +106,8 @@ app.get("/api/users/auth", auth, (req, res) => {
     email: req.user.email,
     role: req.user.role,
     cart: req.user.cart,
+
+    masterpiece: req.user.masterpiece,
     history: req.user.history,
   });
 });
@@ -253,6 +257,68 @@ app.post("/api/users/successBuy", auth, (req, res) => {
           }
         );
       });
+    }
+  );
+});
+
+app.post("/api/users/addToMasterpiece", auth, (req, res) => {
+  //User collection에 해당 유저의 정보를 가져오기
+  User.findOne({ _id: req.user._id }, (err, userInfo) => {
+    //가져온 정보에서 명작에다 넣으려 하는 상품이 이미 들어있는지 확인
+
+    let duplicate = false;
+    userInfo.masterpiece.forEach((item) => {
+      if (item.id === req.body.productId) {
+        duplicate = true;
+      }
+    });
+    //상품있을때
+    if (duplicate) {
+      User.findOneAndUpdate(
+        { _id: req.user._id, "masterpiece.id": req.body.productId },
+
+        { $set: { "masterpiece.$.quantity": 1 } },
+        { new: true },
+        (err, userInfo) => {
+          if (err) return res.status(400).json({ success: false, err });
+          res.status(200).send(userInfo.masterpiece);
+        }
+      );
+    }
+    //상품없을때
+    else {
+      User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+          $push: {
+            masterpiece: {
+              id: req.body.productId,
+              quantity: 0,
+              date: Date.now(),
+            },
+          },
+        },
+        { new: true },
+        (err, userInfo) => {
+          if (err) return res.status(400).json({ success: false, err });
+          res.status(200).send(userInfo.masterpiece);
+        }
+      );
+    }
+  });
+});
+
+app.get("/api/users/removeMasterpiece", auth, (req, res) => {
+  //masterpiece안에 지우려고 한 상품 지우기
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    {
+      $pull: { masterpiece: { id: req.query.id } },
+    },
+    { new: true },
+    (err, userInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).send(userInfo.masterpiece);
     }
   );
 });

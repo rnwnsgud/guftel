@@ -1,29 +1,45 @@
-import React, { useRef } from "react";
-import TextField from "@material-ui/core/TextField";
-import { Button } from "@material-ui/core";
+import React, { useState } from "react";
+import { Button, Input } from "antd";
+
 import { registerUser } from "../../../_actions/user_action";
 import { useDispatch } from "react-redux";
 function RegisterPage(props) {
-  const Email = useRef("");
-  const Name = useRef("");
-  const Password = useRef("");
-  const ConfirmPassword = useRef("");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const [Name, setName] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
+
+  const onEmailHandler = (event) => {
+    setEmail(event.currentTarget.value);
+  };
+
+  const onPasswordHandler = (event) => {
+    setPassword(event.currentTarget.value);
+  };
+
+  const onNameHandler = (event) => {
+    setName(event.currentTarget.value);
+  };
+
+  const onConfirmPasswordHandler = (event) => {
+    setConfirmPassword(event.currentTarget.value);
+  };
 
   const dispatch = useDispatch();
 
   const onSubmitHandler = (event) => {
     event.preventDefault(); // 아무 동작 안하고 버튼만 눌러도 리프레쉬 되는 것을 막는다
-    console.log("Password:", Password.current.value);
-    console.log("ConfirmPassword:", ConfirmPassword.current.value);
+    console.log("Password:", Password);
+    console.log("ConfirmPassword:", ConfirmPassword);
 
-    if (Password.current.value !== ConfirmPassword.current.value) {
+    if (Password !== ConfirmPassword) {
       return alert("비밀번호와 비민번호확인은 같아야 합니다.");
     }
 
     let body = {
-      email: Email.current.value,
-      name: Name.current.value,
-      password: Password.current.value,
+      email: Email,
+      name: Name,
+      password: Password,
     };
     dispatch(registerUser(body)).then((response) => {
       if (response.payload.success) {
@@ -42,33 +58,49 @@ function RegisterPage(props) {
     <div style={{ textAlign: "center" }}>
       <form onSubmit={onSubmitHandler}>
         <div>
-          <TextField inputRef={Email} label="이메일주소" />
-        </div>
-        <br />
-
-        <div>
-          <TextField
-            //   onBlur={onNameHandler}
-            inputRef={Name}
-            label="이름"
+          <Input
+            style={{ width: "400px", height: "40px" }}
+            value={Email}
+            placeholder="이메일주소"
+            onChange={onEmailHandler}
           />
         </div>
         <br />
 
         <div>
-          <TextField type="password" inputRef={Password} label="비밀번호" />
+          <Input
+            style={{ width: "400px", height: "40px" }}
+            //   onBlur={onNameHandler}
+            value={Name}
+            placeholder="이름"
+            onChange={onNameHandler}
+          />
         </div>
         <br />
 
         <div>
-          <TextField
+          <Input
+            style={{ width: "400px", height: "40px" }}
             type="password"
-            inputRef={ConfirmPassword}
-            label="비밀번호 확인"
+            value={Password}
+            placeholder="비밀번호"
+            onChange={onPasswordHandler}
+          />
+        </div>
+        <br />
+
+        <div>
+          <Input
+            style={{ width: "400px", height: "40px" }}
+            type="password"
+            value={ConfirmPassword}
+            onChange={onConfirmPasswordHandler}
+            placeholder="비밀번호 확인"
           />
         </div>
         <br />
         <Button
+          onClick={onSubmitHandler}
           style={{
             minWidth: "400px",
             minHeight: "50px",

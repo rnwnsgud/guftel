@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Col, Card, Row } from "antd";
+import { Col, Card, Row, Button } from "antd";
 import { DesktopOutlined } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import ImageSlider from "./utils/ImageSlider";
@@ -13,13 +13,13 @@ import { genres, episode } from "./views/Sections/Datas";
 function Main() {
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
-  const [Limit, setLimit] = useState(8);
+  const [Limit /*setLimit*/] = useState(8);
   const [PostSize, setPostSize] = useState(0);
   const [Filters, setFilters] = useState({
     genres: [],
     episode: [],
   });
-  const [SearchTerm, setSearchTerm] = useState("");
+  const [, /*SearchTerm*/ setSearchTerm] = useState("");
   useEffect(() => {
     let body = {
       skip: Skip,
@@ -175,7 +175,7 @@ function Main() {
 
       {PostSize >= Limit && (
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <button onClick={loadMoreHandler}>더보기</button>
+          <Button onClick={loadMoreHandler}>더보기</Button>
         </div>
       )}
     </div>

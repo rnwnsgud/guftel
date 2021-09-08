@@ -1,24 +1,31 @@
-import React, { useRef } from "react";
-import TextField from "@material-ui/core/TextField";
-import { Button } from "@material-ui/core";
+import React, { useState } from "react";
+import { Button, Input, Form } from "antd";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
 import { withRouter } from "react-router-dom";
 function LoginPage(props) {
-  const Email = useRef("");
-  const Password = useRef("");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+
+  const onEmailHandler = (event) => {
+    setEmail(event.currentTarget.value);
+  };
+
+  const onPasswordHandler = (event) => {
+    setPassword(event.currentTarget.value);
+  };
 
   const dispatch = useDispatch();
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
-    console.log("Email:", Email.current.value);
-    console.log("Password:", Password.current.value);
+    console.log("Email:", Email);
+    console.log("Password:", Password);
 
     let body = {
-      email: Email.current.value,
-      password: Password.current.value,
+      email: Email,
+      password: Password,
     };
     dispatch(loginUser(body)).then((response) => {
       if (response.payload.loginSuccess) {
@@ -31,14 +38,26 @@ function LoginPage(props) {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <form onSubmit={onSubmitHandler}>
+      <Form onSubmit={onSubmitHandler}>
         <div>
-          <TextField inputRef={Email} label="이메일주소" />
+          <Input
+            type="email"
+            style={{ width: "400px", height: "40px" }}
+            value={Email}
+            onChange={onEmailHandler}
+            label="이메일주소"
+          />
         </div>
         <br />
 
         <div>
-          <TextField type="password" inputRef={Password} label="비밀번호" />
+          <Input
+            style={{ width: "400px", height: "40px" }}
+            type="password"
+            onChange={onPasswordHandler}
+            value={Password}
+            label="비밀번호"
+          />
         </div>
 
         <br />
@@ -50,10 +69,11 @@ function LoginPage(props) {
           type="submit"
           variant="contained"
           color="primary"
+          onClick={onSubmitHandler}
         >
           로그인
         </Button>
-      </form>
+      </Form>
     </div>
   );
 }

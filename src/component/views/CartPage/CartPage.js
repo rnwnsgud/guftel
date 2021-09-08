@@ -36,7 +36,7 @@ function CartPage(props) {
   let calculateTotal = (cartDetail) => {
     let total = 0;
 
-    cartDetail.map((item) => {
+    cartDetail.forEach((item) => {
       total += parseInt(item.episode, 10) * item.quantity;
     });
     setTotal(total);

@@ -29,7 +29,7 @@ function LikeDislikes(props) {
         setLikes(response.data.likes.length);
 
         //내가 이미 그 좋아요를 눌렀는지
-        response.data.likes.map((like) => {
+        response.data.likes.forEach((like) => {
           if (like.userId === props.userId) {
             setLikeAction("liked");
           }
@@ -45,7 +45,7 @@ function LikeDislikes(props) {
         setDislikes(response.data.dislikes.length);
 
         //내가 이미 그 싫어요를 눌렀는지
-        response.data.dislikes.map((dislike) => {
+        response.data.dislikes.forEach((dislike) => {
           if (dislike.userId === props.userId) {
             setDislikeAction("disliked");
           }

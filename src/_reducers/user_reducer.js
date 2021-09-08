@@ -6,6 +6,8 @@ import {
   GET_CART_ITMES,
   REMOVE_CART_ITEM,
   ON_SUCCESS_BUY,
+  ADD_TO_MASTERPIECE,
+  REMOVE_MASTERPIECE,
 } from "../_actions/types";
 
 export default function a(state = {}, action) {
@@ -46,6 +48,23 @@ export default function a(state = {}, action) {
         userData: {
           ...state.userData,
           cart: action.payload.cart,
+        },
+      };
+
+    case ADD_TO_MASTERPIECE:
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          masterpiece: action.payload,
+        },
+      };
+    case REMOVE_MASTERPIECE:
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          masterpiece: action.payload,
         },
       };
 

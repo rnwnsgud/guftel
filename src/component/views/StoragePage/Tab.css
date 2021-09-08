@@ -1,0 +1,16 @@
+@import "~antd/dist/antd.css";
+
+.foo {
+  width: 500px;
+}
+
+/* .ant-tabs-tab.ant-tabs-tab-active {
+  border-bottom: 2px solid #1890ff !important;
+  z-index: 2;
+}
+
+.ant-tabs-ink-bar {
+  position: absolute;
+  background: #1890ff;
+  pointer-events: none;
+} */

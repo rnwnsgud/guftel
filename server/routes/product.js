@@ -115,4 +115,31 @@ router.get("/products_by_id", (req, res) => {
   //productId를 이용해서 DB에서 productId와 같은 상품의 정보를 가져온다.
 });
 
+router.post("/getMasterpiece", (req, res) => {
+  let id = req.body.masterpieceItems;
+
+  Product.find({ _id: { $in: id } }).exec((err, product) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).json({ success: true, product });
+  });
+});
+
+router.post("/getCart", (req, res) => {
+  let id = req.body.cart;
+
+  Product.find({ _id: { $in: id } }).exec((err, product) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).json({ success: true, product });
+  });
+});
+
+router.post("/getStar", (req, res) => {
+  let id = req.body.stars;
+
+  Product.find({ _id: { $in: id } }).exec((err, product) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).json({ success: true, product });
+  });
+});
+
 module.exports = router;

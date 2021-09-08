@@ -4,9 +4,11 @@ import {
   LOGIN_USER,
   AUTH_USER,
   ADD_TO_CART,
+  ADD_TO_MASTERPIECE,
   GET_CART_ITMES,
   REMOVE_CART_ITEM,
   ON_SUCCESS_BUY,
+  REMOVE_MASTERPIECE,
 } from "./types";
 
 export function loginUser(dataTosubmit) {
@@ -87,8 +89,7 @@ export function removeCartItem(productId) {
   const request = axios
     .get(`/api/users/removeFromCart?id=${productId}`)
     .then((response) => {
-      //productInfo, cart 정보를 조합해서 CartDetail을 만든다.
-      console.log("response.data", response.data);
+      //productInfo ,  cart 정보를 조합해서   CartDetail을 만든다.
       response.data.cart.forEach((item) => {
         response.data.productInfo.forEach((product, index) => {
           if (item.id === product._id) {
@@ -96,10 +97,8 @@ export function removeCartItem(productId) {
           }
         });
       });
-
       return response.data;
     });
-
   return {
     type: REMOVE_CART_ITEM,
     payload: request,
@@ -113,6 +112,32 @@ export function onSuccessBuy(data) {
 
   return {
     type: ON_SUCCESS_BUY,
+    payload: request,
+  };
+}
+
+export function addToMasterpiece(id) {
+  let body = {
+    productId: id,
+  };
+
+  const request = axios
+    .post("/api/users/addToMasterpiece", body)
+    .then((response) => response.data);
+
+  return {
+    type: ADD_TO_MASTERPIECE,
+    payload: request,
+  };
+}
+
+export function removeMasterpiece(productId) {
+  const request = axios
+    .get(`/api/users/removeMasterpiece?id=${productId}`)
+    .then((response) => response.data);
+
+  return {
+    type: REMOVE_MASTERPIECE,
     payload: request,
   };
 }

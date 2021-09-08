@@ -23,6 +23,7 @@ const productSchema = mongoose.Schema(
       default: 0,
     },
     view: {
+      //masterpiece
       type: Number,
       default: 0,
     },

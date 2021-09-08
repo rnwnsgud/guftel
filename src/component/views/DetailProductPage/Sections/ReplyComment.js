@@ -7,7 +7,7 @@ function ReplyComment(props) {
 
   useEffect(() => {
     let commentNumber = 0;
-    props.commentLists.map((comment) => {
+    props.commentLists.forEach((comment) => {
       if (comment.responseTo === props.parentCommentId) {
         commentNumber++;
       }
